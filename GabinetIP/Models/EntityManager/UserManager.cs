@@ -59,5 +59,17 @@ namespace GabinetIP.Models.EntityManager
                 return db.SYSUsers.Where(x => x.LoginName.Equals(loginName)).Any();
             }
         }
+
+        public string GetUserPassword(string loginName)
+        {
+            using (GabinetDBEntities db = new GabinetDBEntities())
+            {
+                var user = db.SYSUsers.Where(o => o.LoginName.ToLower().Equals(loginName));
+                if (user.Any())
+                    return user.FirstOrDefault().PasswordEncryptedText;
+                else
+                    return string.Empty;
+            }
+        }
     }
 }

@@ -31,5 +31,7 @@ namespace GabinetIP.Models.DB
         public virtual DbSet<SYSUserRole> SYSUserRoles { get; set; }
 
         public System.Data.Entity.DbSet<GabinetIP.Models.ViewModel.UserSignUpView> UserSignUpViews { get; set; }
+
+        public System.Data.Entity.DbSet<GabinetIP.Models.ViewModel.UserLoginView> UserLoginViews { get; set; }
     }
 }
