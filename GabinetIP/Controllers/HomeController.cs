@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GabinetIP.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,5 +21,15 @@ namespace GabinetIP.Controllers
             return View();
         }
 
+        [AuthorizeRoles("Admin")]
+        public ActionResult AdminOnly()
+        {
+            return View();
+        }
+
+        public ActionResult UnAuthorized()
+        {
+            return View();
+        }
     }
 }
