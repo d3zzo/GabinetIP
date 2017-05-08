@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GabinetIP.Models.ViewModel;
+using GabinetIP.Models.EntityManager;
+
 
 namespace GabinetIP.Controllers
 {
@@ -29,6 +32,19 @@ namespace GabinetIP.Controllers
 
         public ActionResult UnAuthorized()
         {
+            return View();
+        }
+
+        [AuthorizeRoles("Admin")]
+        public ActionResult ManageUserPartial()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string loginName = User.Identity.Name;
+                UserManager UM = new UserManager();
+                UserDataView UDV = UM.GetUserDataView(loginName);
+                return PartialView(UDV);
+            }
             return View();
         }
     }
