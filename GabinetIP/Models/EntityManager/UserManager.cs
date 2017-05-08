@@ -183,5 +183,80 @@ namespace GabinetIP.Models.EntityManager
             UDV.UserGender = new UserGender { SelectedGender = userGender, Gender = genders };
             return UDV;
         }
+
+        public void UpdateUserAccount(UserProfileView user)
+        {
+
+            using (GabinetDBEntities db = new GabinetDBEntities())
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        SYSUser SU = db.SYSUsers.Find(user.SYSUserID);
+                        SU.LoginName = user.LoginName;
+                        SU.PasswordEncryptedText = user.Password;
+                        SU.RowCreatedSYSUserID = user.SYSUserID;
+                        SU.RowModifiedSYSUserID = user.SYSUserID;
+                        SU.RowCreatedDateTime = DateTime.Now;
+                        SU.RowMOdifiedDateTime = DateTime.Now;
+
+                        db.SaveChanges();
+
+                        var userProfile = db.SYSUserProfiles.Where(o => o.SYSUserID == user.SYSUserID);
+                        if (userProfile.Any())
+                        {
+                            SYSUserProfile SUP = userProfile.FirstOrDefault();
+                            SUP.SYSUserID = SU.SYSUserID;
+                            SUP.FirstName = user.FirstName;
+                            SUP.LastName = user.LastName;
+                            SUP.Gender = user.Gender;
+                            SUP.RowCreatedSYSUserID = user.SYSUserID;
+                            SUP.RowModifiedSYSUserID = user.SYSUserID;
+                            SUP.RowCreatedDateTime = DateTime.Now;
+                            SUP.RowModifiedDateTime = DateTime.Now;
+
+                            db.SaveChanges();
+                        }
+
+                        if (user.LOOKUPRoleID > 0)
+                        {
+                            var userRole = db.SYSUserRoles.Where(o => o.SYSUserID == user.SYSUserID);
+                            SYSUserRole SUR = null;
+                            if (userRole.Any())
+                            {
+                                SUR = userRole.FirstOrDefault();
+                                SUR.LOOKUPRoleID = user.LOOKUPRoleID;
+                                SUR.SYSUserID = user.SYSUserID;
+                                SUR.IsActive = true;
+                                SUR.RowCreatedSYSUserID = user.SYSUserID;
+                                SUR.RowModifiedSYSUserID = user.SYSUserID;
+                                SUR.RowCreatedDateTime = DateTime.Now;
+                                SUR.RowModifiedDateTime = DateTime.Now;
+                            }
+                            else
+                            {
+                                SUR = new SYSUserRole();
+                                SUR.LOOKUPRoleID = user.LOOKUPRoleID;
+                                SUR.SYSUserID = user.SYSUserID;
+                                SUR.IsActive = true;
+                                SUR.RowCreatedSYSUserID = user.SYSUserID;
+                                SUR.RowModifiedSYSUserID = user.SYSUserID;
+                                SUR.RowCreatedDateTime = DateTime.Now;
+                                SUR.RowModifiedDateTime = DateTime.Now;
+                                db.SYSUserRoles.Add(SUR);
+                            }
+
+                            db.SaveChanges();
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch
+                    {
+                        dbContextTransaction.Rollback();
+                    }
+                }
+            }
+        }
     }
 }
