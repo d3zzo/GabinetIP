@@ -33,5 +33,7 @@ namespace GabinetIP.Models.DB
         public System.Data.Entity.DbSet<GabinetIP.Models.ViewModel.UserSignUpView> UserSignUpViews { get; set; }
 
         public System.Data.Entity.DbSet<GabinetIP.Models.ViewModel.UserLoginView> UserLoginViews { get; set; }
+
+        public System.Data.Entity.DbSet<GabinetIP.Models.ViewModel.UserProfileView> UserProfileViews { get; set; }
     }
 }

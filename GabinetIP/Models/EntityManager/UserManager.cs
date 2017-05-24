@@ -302,5 +302,36 @@ namespace GabinetIP.Models.EntityManager
             }
         }
 
+        public UserProfileView GetUserProfile(int userID)
+        {
+            UserProfileView UPV = new UserProfileView();
+            using (GabinetDBEntities db = new GabinetDBEntities())
+            {
+                var user = db.SYSUsers.Find(userID);
+                if (user != null)
+                {
+                    UPV.SYSUserID = user.SYSUserID;
+                    UPV.LoginName = user.LoginName;
+                    UPV.Password = user.PasswordEncryptedText;
+
+                    var SUP = db.SYSUserProfiles.Where(p => p.SYSUserID == userID).Single();
+                    if (SUP != null)
+                    {
+                        UPV.FirstName = SUP.FirstName;
+                        UPV.LastName = SUP.LastName;
+                        UPV.Gender = SUP.Gender;
+                    }
+                    var SUR = db.SYSUserRoles.Where(r => r.SYSUserID == userID).Single();
+                    if (SUR != null)
+                    {
+                        UPV.LOOKUPRoleID = SUR.LOOKUPRoleID;
+                        UPV.RoleName = SUR.LOOKUPRole.RoleName;
+                        UPV.IsRoleActive = SUR.IsActive;
+                    }
+                }
+            }
+            return UPV;
+        }
+
     }
 }

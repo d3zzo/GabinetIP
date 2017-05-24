@@ -4,8 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Welcome</h2>
+<h2>Witaj <b>@Context.User.Identity.Name</b>!</h2>
 <br />
-<h2>Hi <b>@Context.User.Identity.Name</b>! Welcome to my first MVC 5 Web App!</h2>
-<h2>@Html.ActionLink("Signout", "SignOut", "Account")</h2>
+<h4>Jesteś zalogowany w aplikacji Gabinet Lekarski!</h4>
+</br>
+<h4>@Html.ActionLink("Edytuj swój profil", "EditProfile", "Home")</h4>
+<h4>@Html.ActionLink("Wyloguj się", "SignOut", "Account")</h4>
+
 
