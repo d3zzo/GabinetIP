@@ -1,0 +1,34 @@
+﻿@model GabinetIP.Models.ViewModel.WizytyDataView
+
+@{
+    ViewBag.Title = "Historia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Historia wizyt</h2>
+
+<div>
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>ID Wizyty</th>
+                <th>Pacjent</th>
+                <th>Lekarz</th>
+                <th>Data wizyty</th>
+                <th>Opis wizyty</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.Wizyty)
+            {
+                <tr>
+                    <td> @Html.DisplayFor(m => i.WizytaID)</td>
+                    <td> @Html.DisplayFor(m => i.Pacjent)</td>
+                    <td> @Html.DisplayFor(m => i.Lekarz)</td>
+                    <td> @Html.DisplayFor(m => i.DataWizyty)</td>
+                    <td> @Html.DisplayFor(m => i.OpisWizyty)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>  

@@ -203,10 +203,15 @@
     <Compile Include="Models\DB\SYSUserRole.cs">
       <DependentUpon>GabinetDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\Wizyta.cs">
+      <DependentUpon>GabinetDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EntityManager\UserManager.cs" />
+    <Compile Include="Models\EntityManager\WizytyManager.cs" />
     <Compile Include="Models\ViewModel\UserLoginView.cs" />
     <Compile Include="Models\ViewModel\UserProfileView.cs" />
     <Compile Include="Models\ViewModel\UserSignUpView.cs" />
+    <Compile Include="Models\ViewModel\WizytyView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AuthorizeRolesAttribute.cs" />
   </ItemGroup>
@@ -227,6 +232,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\Home\EditProfile.cshtml" />
+    <Content Include="Views\Home\Historia.cshtml" />
+    <Content Include="Views\Home\Zaplanowane.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

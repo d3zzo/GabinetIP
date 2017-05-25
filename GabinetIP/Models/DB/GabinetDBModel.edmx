@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GabinetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GabinetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="LOOKUPRole">
           <Key>
             <PropertyRef Name="LOOKUPRoleID" />
@@ -56,6 +56,17 @@
           <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
           <Property Name="RowModifiedDateTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="Wizyta">
+          <Key>
+            <PropertyRef Name="WizytaID" />
+          </Key>
+          <Property Name="WizytaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PacjentID" Type="int" Nullable="false" />
+          <Property Name="LekarzID" Type="int" Nullable="false" />
+          <Property Name="DataUtworzeniaWizyty" Type="datetime" />
+          <Property Name="DataWizyty" Type="datetime" />
+          <Property Name="OpisWizyty" Type="varchar" MaxLength="250" />
+        </EntityType>
         <Association Name="FK__SYSUserPr__SYSUs__1BFD2C07">
           <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
           <End Role="SYSUserProfile" Type="Self.SYSUserProfile" Multiplicity="*" />
@@ -92,11 +103,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Wizyta__LekarzID__38996AB5">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
+          <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="Wizyta">
+              <PropertyRef Name="LekarzID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wizyta__PacjentI__37A5467C">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
+          <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="Wizyta">
+              <PropertyRef Name="PacjentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="GabinetDBModelStoreContainer">
           <EntitySet Name="LOOKUPRole" EntityType="Self.LOOKUPRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUser" EntityType="Self.SYSUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUserProfile" EntityType="Self.SYSUserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUserRole" EntityType="Self.SYSUserRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wizyta" EntityType="Self.Wizyta" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__SYSUserPr__SYSUs__1BFD2C07" Association="Self.FK__SYSUserPr__SYSUs__1BFD2C07">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserProfile" EntitySet="SYSUserProfile" />
@@ -109,9 +145,16 @@
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserRole" EntitySet="SYSUserRole" />
           </AssociationSet>
+          <AssociationSet Name="FK__Wizyta__LekarzID__38996AB5" Association="Self.FK__Wizyta__LekarzID__38996AB5">
+            <End Role="SYSUser" EntitySet="SYSUser" />
+            <End Role="Wizyta" EntitySet="Wizyta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wizyta__PacjentI__37A5467C" Association="Self.FK__Wizyta__PacjentI__37A5467C">
+            <End Role="SYSUser" EntitySet="SYSUser" />
+            <End Role="Wizyta" EntitySet="Wizyta" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GabinetDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -141,7 +184,9 @@
           <Property Name="RowMOdifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="SYSUserProfiles" Relationship="Self.FK__SYSUserPr__SYSUs__1BFD2C07" FromRole="SYSUser" ToRole="SYSUserProfile" />
           <NavigationProperty Name="SYSUserRoles" Relationship="Self.FK__SYSUserRo__SYSUs__22AA2996" FromRole="SYSUser" ToRole="SYSUserRole" />
-        </EntityType>
+          <NavigationProperty Name="Wizyta" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__38996AB5" FromRole="SYSUser" ToRole="Wizyta" />
+          <NavigationProperty Name="Wizyta1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__37A5467C" FromRole="SYSUser" ToRole="Wizyta" />
+          </EntityType>
         <EntityType Name="SYSUserProfile">
           <Key>
             <PropertyRef Name="SYSUserProfileID" />
@@ -225,8 +270,54 @@
             <End Role="SYSUser" EntitySet="SYSUsers" />
             <End Role="SYSUserRole" EntitySet="SYSUserRoles" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          <EntitySet Name="Wizyta" EntityType="GabinetDBModel.Wizyta" />
+          <AssociationSet Name="FK__Wizyta__LekarzID__38996AB5" Association="GabinetDBModel.FK__Wizyta__LekarzID__38996AB5">
+            <End Role="SYSUser" EntitySet="SYSUsers" />
+            <End Role="Wizyta" EntitySet="Wizyta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wizyta__PacjentI__37A5467C" Association="GabinetDBModel.FK__Wizyta__PacjentI__37A5467C">
+            <End Role="SYSUser" EntitySet="SYSUsers" />
+            <End Role="Wizyta" EntitySet="Wizyta" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Wizyta">
+          <Key>
+            <PropertyRef Name="WizytaID" />
+          </Key>
+          <Property Name="WizytaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacjentID" Type="Int32" Nullable="false" />
+          <Property Name="LekarzID" Type="Int32" Nullable="false" />
+          <Property Name="DataUtworzeniaWizyty" Type="DateTime" Precision="3" />
+          <Property Name="DataWizyty" Type="DateTime" Precision="3" />
+          <Property Name="OpisWizyty" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SYSUser" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__38996AB5" FromRole="Wizyta" ToRole="SYSUser" />
+          <NavigationProperty Name="SYSUser1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__37A5467C" FromRole="Wizyta" ToRole="SYSUser" />
+        </EntityType>
+        <Association Name="FK__Wizyta__LekarzID__38996AB5">
+          <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
+          <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="Wizyta">
+              <PropertyRef Name="LekarzID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wizyta__PacjentI__37A5467C">
+          <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
+          <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="Wizyta">
+              <PropertyRef Name="PacjentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -287,6 +378,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Wizyta">
+            <EntityTypeMapping TypeName="GabinetDBModel.Wizyta">
+              <MappingFragment StoreEntitySet="Wizyta">
+                <ScalarProperty Name="OpisWizyty" ColumnName="OpisWizyty" />
+                <ScalarProperty Name="DataWizyty" ColumnName="DataWizyty" />
+                <ScalarProperty Name="DataUtworzeniaWizyty" ColumnName="DataUtworzeniaWizyty" />
+                <ScalarProperty Name="LekarzID" ColumnName="LekarzID" />
+                <ScalarProperty Name="PacjentID" ColumnName="PacjentID" />
+                <ScalarProperty Name="WizytaID" ColumnName="WizytaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -301,7 +404,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

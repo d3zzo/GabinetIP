@@ -19,6 +19,8 @@ namespace GabinetIP.Models.DB
         {
             this.SYSUserProfiles = new HashSet<SYSUserProfile>();
             this.SYSUserRoles = new HashSet<SYSUserRole>();
+            this.Wizyta = new HashSet<Wizyta>();
+            this.Wizyta1 = new HashSet<Wizyta>();
         }
     
         public int SYSUserID { get; set; }
@@ -33,5 +35,9 @@ namespace GabinetIP.Models.DB
         public virtual ICollection<SYSUserProfile> SYSUserProfiles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SYSUserRole> SYSUserRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wizyta> Wizyta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wizyta> Wizyta1 { get; set; }
     }
 }

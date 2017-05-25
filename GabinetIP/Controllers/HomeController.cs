@@ -20,12 +20,43 @@ namespace GabinetIP.Controllers
 
         [Authorize]
         public ActionResult Welcome()
-        {
+        {            
             return View();
         }
 
         [AuthorizeRoles("Admin")]
         public ActionResult AdminOnly()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Zaplanowane()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string loginName = User.Identity.Name;
+                WizytyManager WM = new WizytyManager();
+                WizytyDataView WDV = WM.ZaplanowaneWizytyDataView(loginName);
+                return View(WDV);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public ActionResult Historia()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string loginName = User.Identity.Name;
+                WizytyManager WM = new WizytyManager();
+                WizytyDataView WDV = WM.HistoriaWizytDataView(loginName);
+                return View(WDV);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        [Authorize]
+        public ActionResult Zapisywanie()
         {
             return View();
         }
