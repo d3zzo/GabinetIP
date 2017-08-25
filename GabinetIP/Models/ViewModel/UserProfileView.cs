@@ -14,16 +14,16 @@ namespace GabinetIP.Models.ViewModel
         public string RoleName { get; set; }
         public bool? IsRoleActive { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Login")]
+        [Display(Name = "Login ID")]
         public string LoginName { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Hasło")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Imię")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Nazwisko")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string Gender { get; set; }
     }
@@ -59,5 +59,4 @@ namespace GabinetIP.Models.ViewModel
         public UserRoles UserRoles { get; set; }
         public UserGender UserGender { get; set; }
     }
-
 }

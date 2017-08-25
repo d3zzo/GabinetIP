@@ -38,26 +38,24 @@ namespace GabinetIP.Models.EntityManager
                 db.SYSUserProfiles.Add(SUP);
                 db.SaveChanges();
 
-                if (user.LOOKUPRoleID > 0)
-                {
-                    SYSUserRole SUR = new SYSUserRole();
-                    SUR.LOOKUPRoleID = user.LOOKUPRoleID;
-                    SUR.SYSUserID = user.SYSUserID;
-                    SUR.IsActive = true;
-                    SUR.RowCreatedSYSUserID = user.SYSUserID > 0 ? user.SYSUserID : 1;
-                    SUR.RowModifiedSYSUserID = user.SYSUserID > 0 ? user.SYSUserID : 1;
-                    SUR.RowCreatedDateTime = DateTime.Now;
-                    SUR.RowModifiedDateTime = DateTime.Now;
+                SYSUserRole SUR = new SYSUserRole();
+                SUR.LOOKUPRoleID = 2;       //rola "pacjent"
+                SUR.SYSUserID = SU.SYSUserID;
+                SUR.IsActive = true;
+                SUR.RowCreatedSYSUserID = user.SYSUserID > 0 ? user.SYSUserID : 1;
+                SUR.RowModifiedSYSUserID = user.SYSUserID > 0 ? user.SYSUserID : 1;
+                SUR.RowCreatedDateTime = DateTime.Now;
+                SUR.RowModifiedDateTime = DateTime.Now;
 
-                    db.SYSUserRoles.Add(SUR);
-                    db.SaveChanges();
-                }
+                db.SYSUserRoles.Add(SUR);
+                db.SaveChanges();
             }
         }
 
         public bool IsLoginNameExist(string loginName)
         {
-            using (GabinetDBEntities db = new GabinetDBEntities()){
+            using (GabinetDBEntities db = new GabinetDBEntities())
+            {
                 return db.SYSUsers.Where(x => x.LoginName.Equals(loginName)).Any();
             }
         }
