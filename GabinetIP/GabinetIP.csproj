@@ -234,6 +234,7 @@
     <Content Include="Views\Home\EditProfile.cshtml" />
     <Content Include="Views\Home\Historia.cshtml" />
     <Content Include="Views\Home\Zaplanowane.cshtml" />
+    <Content Include="Views\Home\Zapisywanie.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

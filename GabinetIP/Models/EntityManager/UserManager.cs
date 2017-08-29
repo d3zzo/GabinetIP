@@ -133,7 +133,7 @@ namespace GabinetIP.Models.EntityManager
                     UPV.LoginName = u.LoginName;
                     UPV.Password = u.PasswordEncryptedText;
 
-                    var SUP = db.SYSUserProfiles.Find(u.SYSUserID);
+                    var SUP = db.SYSUserProfiles.Where(o => o.SYSUserID.Equals(u.SYSUserID)).FirstOrDefault();                 
                     if (SUP != null)
                     {
                         UPV.FirstName = SUP.FirstName;
