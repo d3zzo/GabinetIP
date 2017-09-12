@@ -18,7 +18,8 @@ namespace GabinetIP.Models.DB
         public int PacjentID { get; set; }
         public int LekarzID { get; set; }
         public Nullable<System.DateTime> DataUtworzeniaWizyty { get; set; }
-        public Nullable<System.DateTime> DataWizyty { get; set; }
+        public Nullable<System.DateTime> Start { get; set; }
+        public Nullable<System.DateTime> Koniec { get; set; }
         public string OpisWizyty { get; set; }
     
         public virtual SYSUser SYSUser { get; set; }

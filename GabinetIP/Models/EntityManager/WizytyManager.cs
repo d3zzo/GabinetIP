@@ -6,7 +6,6 @@ using GabinetIP.Models.DB;
 using GabinetIP.Models.ViewModel;
 using GabinetIP.Models.EntityManager;
 
-
 namespace GabinetIP.Models.EntityManager
 {
     public class WizytyManager
@@ -23,7 +22,9 @@ namespace GabinetIP.Models.EntityManager
                     WV.WizytaID = w.WizytaID;
                     WV.PacjentID = w.PacjentID;
                     WV.LekarzID = w.LekarzID;
-                    WV.DataWizyty = w.DataWizyty;
+                    //WV.DataWizyty = w.DataWizyty;
+                    WV.DataWizyty = w.Start;
+                    WV.KoniecWizyty = w.Koniec;
                     WV.OpisWizyty = w.OpisWizyty;
 
                     var pacjent = db.SYSUserProfiles.Where(i => i.SYSUserID.Equals(w.PacjentID)).FirstOrDefault();
@@ -68,5 +69,13 @@ namespace GabinetIP.Models.EntityManager
 
             return WDV;
         }
+
+        public WizytyDataView ZapisywanieNaWizyteDataView()
+        {
+            WizytyDataView WDV = new WizytyDataView();
+            List<WizytaView> wizyty = GetAllWizyty();
+            return WDV;
+        }
+        
     }
 }

@@ -15,6 +15,7 @@ namespace GabinetIP.Models.ViewModel
         public Nullable<System.DateTime> DataUtworzeniaWizyty { get; set; }
         [Display(Name = "Data zaplanowanej wizyty")]
         public Nullable<System.DateTime> DataWizyty { get; set; }
+        public Nullable<System.DateTime> KoniecWizyty { get; set; }
         [Display(Name = "Opis wizyty")]
         public string OpisWizyty { get; set; }
         public string Pacjent { get; set; }

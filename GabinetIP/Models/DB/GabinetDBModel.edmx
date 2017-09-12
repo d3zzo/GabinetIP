@@ -64,7 +64,8 @@
           <Property Name="PacjentID" Type="int" Nullable="false" />
           <Property Name="LekarzID" Type="int" Nullable="false" />
           <Property Name="DataUtworzeniaWizyty" Type="datetime" />
-          <Property Name="DataWizyty" Type="datetime" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="Koniec" Type="datetime" />
           <Property Name="OpisWizyty" Type="varchar" MaxLength="250" />
         </EntityType>
         <Association Name="FK__SYSUserPr__SYSUs__1BFD2C07">
@@ -103,7 +104,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__LekarzID__38996AB5">
+        <Association Name="FK__Wizyta__LekarzID__4BAC3F29">
           <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
           <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
@@ -115,7 +116,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__PacjentI__37A5467C">
+        <Association Name="FK__Wizyta__PacjentI__4AB81AF0">
           <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
           <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
@@ -145,11 +146,11 @@
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserRole" EntitySet="SYSUserRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__LekarzID__38996AB5" Association="Self.FK__Wizyta__LekarzID__38996AB5">
+          <AssociationSet Name="FK__Wizyta__LekarzID__4BAC3F29" Association="Self.FK__Wizyta__LekarzID__4BAC3F29">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__PacjentI__37A5467C" Association="Self.FK__Wizyta__PacjentI__37A5467C">
+          <AssociationSet Name="FK__Wizyta__PacjentI__4AB81AF0" Association="Self.FK__Wizyta__PacjentI__4AB81AF0">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
@@ -184,8 +185,8 @@
           <Property Name="RowMOdifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="SYSUserProfiles" Relationship="Self.FK__SYSUserPr__SYSUs__1BFD2C07" FromRole="SYSUser" ToRole="SYSUserProfile" />
           <NavigationProperty Name="SYSUserRoles" Relationship="Self.FK__SYSUserRo__SYSUs__22AA2996" FromRole="SYSUser" ToRole="SYSUserRole" />
-          <NavigationProperty Name="Wizyta" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__38996AB5" FromRole="SYSUser" ToRole="Wizyta" />
-          <NavigationProperty Name="Wizyta1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__37A5467C" FromRole="SYSUser" ToRole="Wizyta" />
+          <NavigationProperty Name="Wizyta" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4BAC3F29" FromRole="SYSUser" ToRole="Wizyta" />
+          <NavigationProperty Name="Wizyta1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4AB81AF0" FromRole="SYSUser" ToRole="Wizyta" />
           </EntityType>
         <EntityType Name="SYSUserProfile">
           <Key>
@@ -271,11 +272,11 @@
             <End Role="SYSUserRole" EntitySet="SYSUserRoles" />
           </AssociationSet>
           <EntitySet Name="Wizyta" EntityType="GabinetDBModel.Wizyta" />
-          <AssociationSet Name="FK__Wizyta__LekarzID__38996AB5" Association="GabinetDBModel.FK__Wizyta__LekarzID__38996AB5">
+          <AssociationSet Name="FK__Wizyta__LekarzID__4BAC3F29" Association="GabinetDBModel.FK__Wizyta__LekarzID__4BAC3F29">
             <End Role="SYSUser" EntitySet="SYSUsers" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__PacjentI__37A5467C" Association="GabinetDBModel.FK__Wizyta__PacjentI__37A5467C">
+          <AssociationSet Name="FK__Wizyta__PacjentI__4AB81AF0" Association="GabinetDBModel.FK__Wizyta__PacjentI__4AB81AF0">
             <End Role="SYSUser" EntitySet="SYSUsers" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
@@ -288,12 +289,13 @@
           <Property Name="PacjentID" Type="Int32" Nullable="false" />
           <Property Name="LekarzID" Type="Int32" Nullable="false" />
           <Property Name="DataUtworzeniaWizyty" Type="DateTime" Precision="3" />
-          <Property Name="DataWizyty" Type="DateTime" Precision="3" />
+          <Property Name="Start" Type="DateTime" Precision="3" />
+          <Property Name="Koniec" Type="DateTime" Precision="3" />
           <Property Name="OpisWizyty" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="SYSUser" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__38996AB5" FromRole="Wizyta" ToRole="SYSUser" />
-          <NavigationProperty Name="SYSUser1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__37A5467C" FromRole="Wizyta" ToRole="SYSUser" />
+          <NavigationProperty Name="SYSUser" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4BAC3F29" FromRole="Wizyta" ToRole="SYSUser" />
+          <NavigationProperty Name="SYSUser1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4AB81AF0" FromRole="Wizyta" ToRole="SYSUser" />
         </EntityType>
-        <Association Name="FK__Wizyta__LekarzID__38996AB5">
+        <Association Name="FK__Wizyta__LekarzID__4BAC3F29">
           <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
           <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
@@ -305,7 +307,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__PacjentI__37A5467C">
+        <Association Name="FK__Wizyta__PacjentI__4AB81AF0">
           <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
           <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
@@ -382,7 +384,8 @@
             <EntityTypeMapping TypeName="GabinetDBModel.Wizyta">
               <MappingFragment StoreEntitySet="Wizyta">
                 <ScalarProperty Name="OpisWizyty" ColumnName="OpisWizyty" />
-                <ScalarProperty Name="DataWizyty" ColumnName="DataWizyty" />
+                <ScalarProperty Name="Koniec" ColumnName="Koniec" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
                 <ScalarProperty Name="DataUtworzeniaWizyty" ColumnName="DataUtworzeniaWizyty" />
                 <ScalarProperty Name="LekarzID" ColumnName="LekarzID" />
                 <ScalarProperty Name="PacjentID" ColumnName="PacjentID" />
