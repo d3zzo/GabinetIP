@@ -12,9 +12,10 @@
         <AssociationConnector Association="GabinetDBModel.FK__SYSUserRo__LOOKU__21B6055D" ManuallyRouted="false" />
         <AssociationConnector Association="GabinetDBModel.FK__SYSUserPr__SYSUs__1BFD2C07" ManuallyRouted="false" />
         <AssociationConnector Association="GabinetDBModel.FK__SYSUserRo__SYSUs__22AA2996" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="GabinetDBModel.Wizyta" Width="1.5" PointX="4.625" PointY="7.25" />
-        <AssociationConnector Association="GabinetDBModel.FK__Wizyta__LekarzID__4BAC3F29" />
-        <AssociationConnector Association="GabinetDBModel.FK__Wizyta__PacjentI__4AB81AF0" />
+        <EntityTypeShape EntityType="GabinetDBModel.Wizyta" Width="1.5" PointX="8.375" PointY="7.375" />
+        <AssociationConnector Association="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362" />
+        <AssociationConnector Association="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B" />
+        <EntityTypeShape EntityType="GabinetDBModel.Event" Width="1.5" PointX="0.75" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -12,17 +12,11 @@ namespace GabinetIP.Models.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Wizyta
+    public partial class Event
     {
-        public int WizytaID { get; set; }
-        public Nullable<int> PacjentID { get; set; }
-        public Nullable<int> LekarzID { get; set; }
-        public Nullable<System.DateTime> DataUtworzeniaWizyty { get; set; }
+        public int Id { get; set; }
         public System.DateTime Start { get; set; }
-        public System.DateTime Koniec { get; set; }
-        public string OpisWizyty { get; set; }
-    
-        public virtual SYSUser SYSUser { get; set; }
-        public virtual SYSUser SYSUser1 { get; set; }
+        public System.DateTime End { get; set; }
+        public string Text { get; set; }
     }
 }

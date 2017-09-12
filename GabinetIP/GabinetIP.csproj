@@ -43,7 +43,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DayPilot.Web.Mvc, Version=1.5.434.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DayPilot.Web.Mvc, Version=8.2.5836.1, Culture=neutral, PublicKeyToken=b8d928e6588028e4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\DayPilot.Web.Mvc.dll</HintPath>
     </Reference>
@@ -176,9 +176,14 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Event.cs">
+      <DependentUpon>GabinetDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\GabinetDBModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -240,6 +245,8 @@
     <Content Include="Views\Home\Zaplanowane.cshtml" />
     <Content Include="Views\Home\Zapisywanie.cshtml" />
     <Content Include="Views\Home\Calendar.cshtml" />
+    <Content Include="Views\Event\Create.cshtml" />
+    <Content Include="Views\Event\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -249,6 +256,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Calendar\" />
+    <Folder Include="Views\Callendar\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="GabinetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start" Type="datetime" Nullable="false" />
+          <Property Name="End" Type="datetime" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="LOOKUPRole">
           <Key>
             <PropertyRef Name="LOOKUPRoleID" />
@@ -61,11 +70,11 @@
             <PropertyRef Name="WizytaID" />
           </Key>
           <Property Name="WizytaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PacjentID" Type="int" Nullable="false" />
-          <Property Name="LekarzID" Type="int" Nullable="false" />
+          <Property Name="PacjentID" Type="int" />
+          <Property Name="LekarzID" Type="int" />
           <Property Name="DataUtworzeniaWizyty" Type="datetime" />
-          <Property Name="Start" Type="datetime" />
-          <Property Name="Koniec" Type="datetime" />
+          <Property Name="Start" Type="datetime" Nullable="false" />
+          <Property Name="Koniec" Type="datetime" Nullable="false" />
           <Property Name="OpisWizyty" Type="varchar" MaxLength="250" />
         </EntityType>
         <Association Name="FK__SYSUserPr__SYSUs__1BFD2C07">
@@ -104,8 +113,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__LekarzID__4BAC3F29">
-          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
+        <Association Name="FK__Wizyta__LekarzID__4CA06362">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="0..1" />
           <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SYSUser">
@@ -116,8 +125,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__PacjentI__4AB81AF0">
-          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
+        <Association Name="FK__Wizyta__PacjentI__4D94879B">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="0..1" />
           <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SYSUser">
@@ -129,6 +138,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="GabinetDBModelStoreContainer">
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOOKUPRole" EntityType="Self.LOOKUPRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUser" EntityType="Self.SYSUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUserProfile" EntityType="Self.SYSUserProfile" Schema="dbo" store:Type="Tables" />
@@ -146,11 +156,11 @@
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserRole" EntitySet="SYSUserRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__LekarzID__4BAC3F29" Association="Self.FK__Wizyta__LekarzID__4BAC3F29">
+          <AssociationSet Name="FK__Wizyta__LekarzID__4CA06362" Association="Self.FK__Wizyta__LekarzID__4CA06362">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__PacjentI__4AB81AF0" Association="Self.FK__Wizyta__PacjentI__4AB81AF0">
+          <AssociationSet Name="FK__Wizyta__PacjentI__4D94879B" Association="Self.FK__Wizyta__PacjentI__4D94879B">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
@@ -185,8 +195,8 @@
           <Property Name="RowMOdifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="SYSUserProfiles" Relationship="Self.FK__SYSUserPr__SYSUs__1BFD2C07" FromRole="SYSUser" ToRole="SYSUserProfile" />
           <NavigationProperty Name="SYSUserRoles" Relationship="Self.FK__SYSUserRo__SYSUs__22AA2996" FromRole="SYSUser" ToRole="SYSUserRole" />
-          <NavigationProperty Name="Wizyta" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4BAC3F29" FromRole="SYSUser" ToRole="Wizyta" />
-          <NavigationProperty Name="Wizyta1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4AB81AF0" FromRole="SYSUser" ToRole="Wizyta" />
+          <NavigationProperty Name="Wizyta" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362" FromRole="SYSUser" ToRole="Wizyta" />
+          <NavigationProperty Name="Wizyta1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B" FromRole="SYSUser" ToRole="Wizyta" />
           </EntityType>
         <EntityType Name="SYSUserProfile">
           <Key>
@@ -272,31 +282,32 @@
             <End Role="SYSUserRole" EntitySet="SYSUserRoles" />
           </AssociationSet>
           <EntitySet Name="Wizyta" EntityType="GabinetDBModel.Wizyta" />
-          <AssociationSet Name="FK__Wizyta__LekarzID__4BAC3F29" Association="GabinetDBModel.FK__Wizyta__LekarzID__4BAC3F29">
+          <AssociationSet Name="FK__Wizyta__LekarzID__4CA06362" Association="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362">
             <End Role="SYSUser" EntitySet="SYSUsers" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__PacjentI__4AB81AF0" Association="GabinetDBModel.FK__Wizyta__PacjentI__4AB81AF0">
+          <AssociationSet Name="FK__Wizyta__PacjentI__4D94879B" Association="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B">
             <End Role="SYSUser" EntitySet="SYSUsers" />
             <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
+          <EntitySet Name="Events" EntityType="GabinetDBModel.Event" />
           </EntityContainer>
         <EntityType Name="Wizyta">
           <Key>
             <PropertyRef Name="WizytaID" />
           </Key>
           <Property Name="WizytaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PacjentID" Type="Int32" Nullable="false" />
-          <Property Name="LekarzID" Type="Int32" Nullable="false" />
+          <Property Name="PacjentID" Type="Int32" />
+          <Property Name="LekarzID" Type="Int32" />
           <Property Name="DataUtworzeniaWizyty" Type="DateTime" Precision="3" />
-          <Property Name="Start" Type="DateTime" Precision="3" />
-          <Property Name="Koniec" Type="DateTime" Precision="3" />
+          <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Koniec" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="OpisWizyty" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="SYSUser" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4BAC3F29" FromRole="Wizyta" ToRole="SYSUser" />
-          <NavigationProperty Name="SYSUser1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4AB81AF0" FromRole="Wizyta" ToRole="SYSUser" />
+          <NavigationProperty Name="SYSUser" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362" FromRole="Wizyta" ToRole="SYSUser" />
+          <NavigationProperty Name="SYSUser1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B" FromRole="Wizyta" ToRole="SYSUser" />
         </EntityType>
-        <Association Name="FK__Wizyta__LekarzID__4BAC3F29">
-          <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
+        <Association Name="FK__Wizyta__LekarzID__4CA06362">
+          <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="0..1" />
           <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SYSUser">
@@ -307,8 +318,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__PacjentI__4AB81AF0">
-          <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
+        <Association Name="FK__Wizyta__PacjentI__4D94879B">
+          <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="0..1" />
           <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SYSUser">
@@ -319,6 +330,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="End" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Text" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -393,6 +413,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="GabinetDBModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -407,7 +437,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

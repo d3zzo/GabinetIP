@@ -19,12 +19,12 @@ namespace GabinetIP.Models.EntityManager
                 foreach (var w in db.Wizyta)
                 {
                     WV = new WizytaView();
-                    WV.WizytaID = w.WizytaID;
-                    WV.PacjentID = w.PacjentID;
-                    WV.LekarzID = w.LekarzID;
+                    WV.WizytaID = (int)w.WizytaID;
+                    WV.PacjentID = (int)w.PacjentID;
+                    WV.LekarzID = (int)w.LekarzID;
                     //WV.DataWizyty = w.DataWizyty;
-                    WV.DataWizyty = w.Start;
-                    WV.KoniecWizyty = w.Koniec;
+                    WV.DataWizyty = (DateTime)w.Start;
+                    WV.KoniecWizyty = (DateTime)w.Koniec;
                     WV.OpisWizyty = w.OpisWizyty;
 
                     var pacjent = db.SYSUserProfiles.Where(i => i.SYSUserID.Equals(w.PacjentID)).FirstOrDefault();
