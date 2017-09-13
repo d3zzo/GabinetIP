@@ -15,11 +15,11 @@
 @Html.DayPilotCalendar("dp", new DayPilotCalendarConfig
 {
     BackendUrl = Url.Content("~/Home/Backend"),
-    ViewType = DayPilot.Web.Mvc.Enums.Calendar.ViewType.WorkWeek,
+    ViewType = DayPilot.Web.Mvc.Enums.Calendar.ViewType.Week,
     TimeRangeSelectedHandling = TimeRangeSelectedHandlingType.JavaScript,
     TimeRangeSelectedJavaScript = "create(start, end)",
     EventClickHandling = EventClickHandlingType.JavaScript,
-    EventClickJavaScript = "edit(e)"
+    EventClickJavaScript = "edit(e)",
 })
 
 <script type="text/javascript">
