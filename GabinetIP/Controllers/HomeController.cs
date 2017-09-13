@@ -170,31 +170,31 @@ namespace GabinetIP.Controllers
 
             protected override void OnEventResize(EventResizeArgs e)
             {
-                var toBeResized = (from ev in db.Wizyta where ev.WizytaID == Convert.ToInt32(e.Id) select ev).First();
+                var toBeResized = (from ev in db.Event where ev.Id == Convert.ToInt32(e.Id) select ev).First();
                 toBeResized.Start = e.NewStart;
-                toBeResized.Koniec = e.NewEnd;
+                toBeResized.End = e.NewEnd;
                 db.SaveChanges();
                 Update();
             }
 
             protected override void OnEventMove(EventMoveArgs e)
             {
-                var toBeResized = (from ev in db.Wizyta where ev.WizytaID == Convert.ToInt32(e.Id) select ev).First();
+                var toBeResized = (from ev in db.Event where ev.Id == Convert.ToInt32(e.Id) select ev).First();
                 toBeResized.Start = e.NewStart;
-                toBeResized.Koniec = e.NewEnd;
+                toBeResized.End = e.NewEnd;
                 db.SaveChanges();
                 Update();
             }
 
             protected override void OnTimeRangeSelected(TimeRangeSelectedArgs e)
             {
-                var toBeCreated = new Wizyta
+                var toBeCreated = new Event
                 {
                     Start = e.Start,
-                    Koniec = e.End,
-                    OpisWizyty = (string)e.Data["name"]
+                    End = e.End,
+                    Text = (string)e.Data["name"]
                 };
-                db.Wizyta.Add(toBeCreated);
+                db.Event.Add(toBeCreated);
                 db.SaveChanges();
                 Update();
             }
@@ -205,13 +205,14 @@ namespace GabinetIP.Controllers
                 {
                     return;
                 }
-                Events = from ev in db.Wizyta select ev;
+                Events = from ev in db.Event select ev;
 
-                DataIdField = "WizytaID";
-                DataTextField = "OpisWizyty";
+                DataIdField = "Id";
+                DataTextField = "Text";
                 DataStartField = "Start";
-                DataEndField = "Koniec";
+                DataEndField = "End";
 
+                //Events = from e in db.Event where !((e.End <= VisibleStart) || (e.Start >= VisibleEnd)) select e;
                 Update();
             }
         }

@@ -180,6 +180,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\Event.cs">
+      <DependentUpon>GabinetDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\GabinetDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

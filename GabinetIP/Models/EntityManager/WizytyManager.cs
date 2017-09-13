@@ -20,8 +20,8 @@ namespace GabinetIP.Models.EntityManager
                 {
                     WV = new WizytaView();
                     WV.WizytaID = w.WizytaID;
-                    WV.PacjentID = w.PacjentID;
-                    WV.LekarzID = w.LekarzID;
+                    WV.PacjentID = (int)w.PacjentID;
+                    WV.LekarzID = (int)w.LekarzID;
                     //WV.DataWizyty = w.DataWizyty;
                     WV.DataWizyty = w.Start;
                     WV.KoniecWizyty = w.Koniec;
