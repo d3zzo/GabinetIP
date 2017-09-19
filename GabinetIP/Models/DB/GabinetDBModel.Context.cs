@@ -30,6 +30,7 @@ namespace GabinetIP.Models.DB
         public virtual DbSet<SYSUserProfile> SYSUserProfiles { get; set; }
         public virtual DbSet<SYSUserRole> SYSUserRoles { get; set; }
         public virtual DbSet<Event> Event { get; set; }
-        public virtual DbSet<Wizyta> Wizyta { get; set; }
+
+        public System.Data.Entity.DbSet<GabinetIP.Models.ViewModel.EventData> EventDatas { get; set; }
     }
 }

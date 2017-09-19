@@ -13,17 +13,18 @@ namespace GabinetIP.Models.ViewModel
         public int LOOKUPRoleID { get; set; }
         public string RoleName { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Login ID")]
+        [Display(Name = "Nazwa użytkownika")]
         public string LoginName { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "First Name")]
+        [Display(Name = "Imię")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "*")]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
+        [Display(Name = "Płeć")]
         public string Gender { get; set; }
 
     }

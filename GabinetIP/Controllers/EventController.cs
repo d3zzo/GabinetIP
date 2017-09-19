@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using GabinetIP.Models.DB;
 using DayPilot.Web.Mvc.Json;
+using GabinetIP.Models.EntityManager;
+using GabinetIP.Models.ViewModel;
 
 namespace GabinetIP.Controllers
 {
@@ -12,6 +14,7 @@ namespace GabinetIP.Controllers
     {
         GabinetDBEntities dc = new GabinetDBEntities();
 
+        [Authorize]
         public ActionResult Edit(string id)
         {
             var ids = Convert.ToInt32(id);
@@ -22,6 +25,7 @@ namespace GabinetIP.Controllers
                 Start = t.Start,
                 End = t.End,
                 Text = t.Text
+                    
             };
             return View(ev);
         }
@@ -43,40 +47,45 @@ namespace GabinetIP.Controllers
             return JavaScript(SimpleJsonSerializer.Serialize("OK"));
         }
 
-
+        [Authorize]
         public ActionResult Create()
         {
-            return View(new EventData
-            {
-                Start = Convert.ToDateTime(Request.QueryString["start"]),
-                End = Convert.ToDateTime(Request.QueryString["end"])
-            });
+            UserManager UM = new UserManager();
+            var DDV = UM.GetDoctorDataView();
+            //var ED = new EventData {
+            //    Start = Convert.ToDateTime(Request.QueryString["start"]),
+            //    End = Convert.ToDateTime(Request.QueryString["end"]),               
+            //};
+            DDV.Start = Convert.ToDateTime(Request.QueryString["start"]);
+            DDV.End = Convert.ToDateTime(Request.QueryString["end"]);
+            
+            return View(DDV);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(FormCollection form)
         {
+            UserManager UM = new UserManager();
             DateTime start = Convert.ToDateTime(form["Start"]);
             DateTime end = Convert.ToDateTime(form["End"]);
-            string text = form["Text"];
+            //string text = form["Text"];
             int resource = Convert.ToInt32(form["Resource"]);
+            int lekarz = Convert.ToInt32(form["lekarze.SelectedDoctorID"]);
             //string recurrence = form["Recurrence"];
+            var doctorFull = UM.GetUserFullName(lekarz);
+            var uzyt = System.Web.HttpContext.Current.User.Identity.Name;
 
-            var toBeCreated = new Event() { Start = start, End = end, Text = text };
+            var toBeCreated = new Event() { Start = start, End = end, Text = doctorFull, PacjentID = UM.GetUserID(uzyt), LekarzID = lekarz };
             dc.Event.Add(toBeCreated);
             dc.SaveChanges();
 
             return JavaScript(SimpleJsonSerializer.Serialize("OK"));
         }
 
-        public class EventData
-        {
-            public int Id { get; set; }
-            public DateTime Start { get; set; }
-            public DateTime End { get; set; }
-            public SelectList Resource { get; set; }
-            public string Text { get; set; }
-        }
+        //public class MoreEventData
+        //{
+        //    public EventData ed { get; set; }
+        //}
 
     }
 }

@@ -10,71 +10,77 @@ namespace GabinetIP.Models.EntityManager
 {
     public class WizytyManager
     {
-        public List<WizytaView> GetAllWizyty()
+        public List<EventData> GetAllWizyty()
         {
-            List<WizytaView> wizyty = new List<WizytaView>();
+            List<EventData> wizyty = new List<EventData>();
             using (GabinetDBEntities db = new GabinetDBEntities())
             {
-                WizytaView WV;
-                foreach (var w in db.Wizyta)
+                EventData ED;
+                foreach (var w in db.Event)
                 {
-                    WV = new WizytaView();
-                    WV.WizytaID = w.WizytaID;
-                    WV.PacjentID = (int)w.PacjentID;
-                    WV.LekarzID = (int)w.LekarzID;
-                    //WV.DataWizyty = w.DataWizyty;
-                    WV.DataWizyty = w.Start;
-                    WV.KoniecWizyty = w.Koniec;
-                    WV.OpisWizyty = w.OpisWizyty;
+                    ED = new EventData();
+                    ED.Id = w.Id;
+                    ED.PacjentID = (int)w.PacjentID;
+                    ED.LekarzID = (int)w.LekarzID;
+                    ED.Start = w.Start;
+                    ED.End= w.End;
+                    ED.Text= w.Text;
 
-                    var pacjent = db.SYSUserProfiles.Where(i => i.SYSUserID.Equals(w.PacjentID)).FirstOrDefault();
+                    var pacjent = db.SYSUserProfiles.Where(i => i.SYSUserID == w.PacjentID).Single();
                     if (pacjent != null)
                     {
-                        WV.Pacjent = pacjent.FirstName + " " + pacjent.LastName;
+                        ED.Pacjent = pacjent.FirstName + " " + pacjent.LastName;
                     }
 
-                    var lekarz = db.SYSUserProfiles.Where(i => i.SYSUserID.Equals(w.LekarzID)).FirstOrDefault();
+                    var lekarz = db.SYSUserProfiles.Where(i => i.SYSUserID ==w.LekarzID).FirstOrDefault();
                     if (lekarz != null)
                     {
-                        WV.Lekarz= lekarz.FirstName + " " + lekarz.LastName;
+                        ED.Lekarz = lekarz.FirstName + " " + lekarz.LastName;
                     }
 
-                    wizyty.Add(WV);
+                    wizyty.Add(ED);
                 }
                 
             }
                 return wizyty;
         }
 
-        public WizytyDataView HistoriaWizytDataView(string userName)
+        public EventDataView HistoriaWizytDataView(string userName)
         {
-            WizytyDataView WDV = new WizytyDataView();
-            List<WizytaView> wizyty = GetAllWizyty();
+            EventDataView EDV = new EventDataView();
+            List<EventData> wizyty = GetAllWizyty();
             UserManager UM = new UserManager();
             var userID = UM.GetUserID(userName);
-            var wizyty1 = wizyty.Where(i => i.DataWizyty <= DateTime.Now && i.PacjentID.Equals(userID));
-            WDV.Wizyty = wizyty1;
+            var wizyty1 = wizyty.Where(i => i.Start <= DateTime.Now && i.PacjentID.Equals(userID));
+            EDV.Wizyty = wizyty1;
 
-            return WDV;
+            return EDV;
         }
 
-        public WizytyDataView ZaplanowaneWizytyDataView(string userName)
+        public EventDataView ZaplanowaneWizytyDataView(string userName)
         {
-            WizytyDataView WDV = new WizytyDataView();
-            List<WizytaView> wizyty = GetAllWizyty();
+            EventDataView EDV = new EventDataView();
+            List<EventData> wizyty = GetAllWizyty();
             UserManager UM = new UserManager();
             var userID = UM.GetUserID(userName);
-            var wizyty1 = wizyty.Where(i => i.DataWizyty > DateTime.Now && i.PacjentID.Equals(userID));
-            WDV.Wizyty = wizyty1;
-
-            return WDV;
+            EDV.Wizyty = wizyty.Where(i => i.Start > DateTime.Now && i.PacjentID.Equals(userID));
+            return EDV;
+        }
+        public EventDataView ZaplanowaneWizytyLekarzDataView(string userName)
+        {
+            EventDataView EDV = new EventDataView();
+            List<EventData> wizyty = GetAllWizyty();
+            UserManager UM = new UserManager();
+            var userID = UM.GetUserID(userName);
+            EDV.Wizyty = wizyty.Where(i => i.Start > DateTime.Now && i.LekarzID.Equals(userID));
+            return EDV;
         }
 
-        public WizytyDataView ZapisywanieNaWizyteDataView()
+        public EventDataView ZapisywanieNaWizyteDataView()
         {
-            WizytyDataView WDV = new WizytyDataView();
-            List<WizytaView> wizyty = GetAllWizyty();
-            return WDV;
+            EventDataView EDV = new EventDataView();
+            List<EventData> wizyty = GetAllWizyty();
+            return EDV;
         }
         
     }

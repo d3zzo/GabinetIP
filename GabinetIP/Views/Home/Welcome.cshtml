@@ -1,18 +1,28 @@
 ﻿
 @{
-    ViewBag.Title = "Welcome";
+    ViewBag.Title = "Ekran powitalny";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Witaj <b>@Context.User.Identity.Name</b>!</h2>
 <br />
-<h4>Jesteś zalogowany w aplikacji Gabinet Lekarski!</h4>
+<h4>Jesteś zalogowany w aplikacji Gabinet Lekarski jako <b>@ViewBag.rola</b>.</h4>
 <br/>
 <h4>@Html.ActionLink("Edytuj swój profil", "EditProfile", "Home")</h4>
-<h4>@Html.ActionLink("Zapisz na wizytę", "Calendar", "Home")</h4>
-<h4>@Html.ActionLink("Zaplanowane wizyty", "Zaplanowane", "Home")</h4>
-<h4>@Html.ActionLink("Historia moich wizyt", "Historia", "Home")</h4>
-<h4>@Html.ActionLink("Panel Administratora", "AdminOnly", "Home")</h4>
+@if (ViewBag.Rola == "Pacjent")
+{
+    <h4>@Html.ActionLink("Zapisz na wizytę", "Calendar", "Home")</h4>
+    <h4>@Html.ActionLink("Zaplanowane wizyty", "Zaplanowane", "Home")</h4>
+    <h4>@Html.ActionLink("Historia moich wizyt", "Historia", "Home")</h4>
+}
+@if (ViewBag.Rola == "Admin")
+{ 
+    <h4>@Html.ActionLink("Panel Administratora", "AdminOnly", "Home")</h4>
+}
+@if (ViewBag.Rola == "Lekarz")
+{
+    <h4>@Html.ActionLink("Nadchodzące wizyty lekarskie", "ZaplanowaneLekarz", "Home")</h4>
+}
 <h4>@Html.ActionLink("Wyloguj się", "SignOut", "Account")</h4>
 
 

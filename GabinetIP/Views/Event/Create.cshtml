@@ -1,4 +1,5 @@
-﻿@{
+﻿@model GabinetIP.Models.ViewModel.EventData
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -6,32 +7,38 @@
 <head runat="server">
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.12.4.min.js")"></script>
     <link href="@Url.Content("~/Media/layout.css")" rel="stylesheet" type="text/css" />
-    <style>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    @*<style>
         p, body, td {
             font-family: Tahoma, Arial, Sans-Serif;
             font-size: 10pt;
         }
-    </style>
+    </style>*@
     <title></title>
 </head>
-<body style="padding:10px">
+<body style="padding:20px">
     <form id="f" method="post" action="@Url.Action("New")">
 
-        <h1>New Event</h1>
+        <h1>Nowa Wizyta</h1>
 
-        <div>Text</div>
-        <div>@Html.TextBox("Text")</div>
+        <div> Wybór lekarza</div>
+        <div>
+                        @Html.DropDownListFor(o => o.lekarze.SelectedDoctorID,
+                       new SelectList(Model.lekarze.ListaLekarzy, "SYSUserID", ("LastName")),
+                       "", new {@class = "form-control" })
+        </div>
+        @*<div>Text</div>
+        <div>@Html.TextBox("Text")</div>*@
 
-        <div>Start</div>
-        <div>@Html.TextBox("Start")</div>
+        <div>Początek wizyty</div>
+        <div>@Html.TextBox("Start", null, new { @class = "form-control" })</div>
 
-        <div>End</div>
-        <div>@Html.TextBox("End")</div>
-
+        <div>Koniec wizyty</div>
+        <div>@Html.TextBox("End", null, new { @class = "form-control" })</div>
 
         <div class="space">
-            <input type="submit" value="Save" id="ButtonSave" />
-            <a href="javascript:close()">Cancel</a>
+            <input type="submit" value="Zatwierdź" id="ButtonSave" class="btn btn-success"/>
+            <a href="javascript:close()" class="btn btn-default">Zrezygnuj</a>
         </div>
         <div class="space">&nbsp;</div>
     </form>

@@ -6,12 +6,12 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Login ID</th>
-                <th>Password</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Gender</th>
-                <th colspan="2">Role</th>
+                <th>Nazwa użytkownika</th>
+                <th>Hasło</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Płeć</th>
+                <th colspan="2">Rola</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -22,14 +22,15 @@
                 <tr>                   
                     <td> @Html.DisplayFor(m => i.SYSUserID)</td>
                     <td> @Html.DisplayFor(m => i.LoginName)</td>
-                    <td> @Html.DisplayFor(m => i.Password)</td>
+                    @*<td> @Html.DisplayFor(m => i.Password)</td>*@
+                    <td> @Html.Raw("\u2022\u2022\u2022\u2022\u2022")</td>
                     <td> @Html.DisplayFor(m => i.FirstName)</td>
                     <td> @Html.DisplayFor(m => i.LastName)</td>
                     <td> @Html.DisplayFor(m => i.Gender)</td>
                     <td> @Html.DisplayFor(m => i.RoleName)</td>
                     <td> @Html.HiddenFor(m => i.LOOKUPRoleID)</td>
-                    <td><a href="javascript:void(0)" class="lnkEdit">Edit</a></td>
-                    <td><a href="javascript:void(0)" class="lnkDelete">Delete</a></td>
+                    <td><a href="javascript:void(0)" class="lnkEdit">Edytuj</a></td>
+                    <td><a href="javascript:void(0)" class="lnkDelete">Usuń</a></td>
                 </tr>
             }
         </tbody>
@@ -41,23 +42,23 @@
     <input type="hidden" id="hidID" />
     <table>
         <tr>
-            <td>Login Name</td>
+            <td>Użytkownik</td>
             <td><input type="text" id="txtLoginName" class="form-control" /></td>
         </tr>
         <tr>
-            <td>Password</td>
+            <td>Hasło</td>
             <td><input type="text" id="txtPassword" class="form-control" /></td>
         </tr>
         <tr>
-            <td>First Name</td>
+            <td>Imię</td>
             <td><input type="text" id="txtFirstName" class="form-control" /></td>
         </tr>
         <tr>
-            <td>Last Name</td>
+            <td>Nazwisko</td>
             <td><input type="text" id="txtLastName" class="form-control" /></td>
         </tr>
         <tr>
-            <td>Gender</td>
+            <td>Płeć</td>
             <td>
                 @Html.DropDownListFor(o => o.UserGender.SelectedGender,
                        new SelectList(Model.UserGender.Gender, "Value", "Text"),
@@ -66,7 +67,7 @@
             </td>
         </tr>
         <tr>
-            <td>Role</td>
+            <td>Rola</td>
             <td>
                 @Html.DropDownListFor(o => o.UserRoles.SelectedRoleID,
                        new SelectList(Model.UserRoles.UserRoleList, "LOOKUPRoleID", "RoleName"),
@@ -91,7 +92,7 @@
                 title: type + ' User',
                 width: 360,
                 buttons: {
-                    Save: function () {
+                    Zapisz: function () {
                         var id = $("#hidID").val();
                         var role = $("#ddlRoles").val();
                         var loginName = $("#txtLoginName").val();
@@ -103,7 +104,7 @@
                         UpdateUser(id, loginName, loginPass, fName, lName, gender, role);
                         $(this).dialog("destroy");
                     },
-                    Cancel: function () { $(this).dialog("destroy"); }
+                    Cofnij: function () { $(this).dialog("destroy"); }
                 }
             });
         }
@@ -154,7 +155,7 @@
         $("a.lnkDelete").on("click", function () {
             var row = $(this).closest('tr');
             var id = row.find("td:eq(0)").html().trim();
-            var answer = confirm("You are about to delete this user with ID " + id + " . Continue?");
+            var answer = confirm("Użytkownik " + id + " zostanie usunięty z systemu. Kontynuować?");
             if (answer)
                 DeleteUser(id);
             return false;

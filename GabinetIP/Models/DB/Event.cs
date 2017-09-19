@@ -18,5 +18,10 @@ namespace GabinetIP.Models.DB
         public System.DateTime Start { get; set; }
         public System.DateTime End { get; set; }
         public string Text { get; set; }
+        public Nullable<int> PacjentID { get; set; }
+        public Nullable<int> LekarzID { get; set; }
+    
+        public virtual SYSUser SYSUser { get; set; }
+        public virtual SYSUser SYSUser1 { get; set; }
     }
 }

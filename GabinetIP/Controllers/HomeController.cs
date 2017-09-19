@@ -15,6 +15,7 @@ namespace GabinetIP.Controllers
 {
     public class HomeController : Controller
     {
+        
         // GET: Home
         public ActionResult Index()
         {
@@ -23,49 +24,68 @@ namespace GabinetIP.Controllers
 
         [Authorize]
         public ActionResult Welcome()
-        {            
+        {
+            UserManager UM = new UserManager();
+            if (User.Identity.IsAuthenticated)
+            {
+                string loginName = User.Identity.Name;
+                int userID = UM.GetUserID(loginName);
+                string userRole = UM.GetUserRole(userID);
+                ViewBag.Rola = userRole;
+            }
             return View();
-        }
 
+        }
         [AuthorizeRoles("Admin")]
         public ActionResult AdminOnly()
         {
             return View();
         }
-
-        [Authorize]
+        [AuthorizeRoles("Pacjent")]
         public ActionResult Zaplanowane()
         {
             if (User.Identity.IsAuthenticated)
             {
                 string loginName = User.Identity.Name;
                 WizytyManager WM = new WizytyManager();
-                WizytyDataView WDV = WM.ZaplanowaneWizytyDataView(loginName);
-                return View(WDV);
+                EventDataView EDV = WM.ZaplanowaneWizytyDataView(loginName);
+                return View(EDV);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        [AuthorizeRoles("Lekarz")]
+        public ActionResult ZaplanowaneLekarz()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string loginName = User.Identity.Name;
+                WizytyManager WM = new WizytyManager();
+                EventDataView EDV = WM.ZaplanowaneWizytyLekarzDataView(loginName);
+                return View(EDV);
             }
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
+        [AuthorizeRoles("Pacjent")]
         public ActionResult Historia()
         {
             if (User.Identity.IsAuthenticated)
             {
                 string loginName = User.Identity.Name;
                 WizytyManager WM = new WizytyManager();
-                WizytyDataView WDV = WM.HistoriaWizytDataView(loginName);
-                return View(WDV);
+                EventDataView EDV = WM.HistoriaWizytDataView(loginName);
+                return View(EDV);
             }
             return RedirectToAction("Index", "Home");
         }
-        [Authorize]
+        [AuthorizeRoles("Pacjent")]
         public ActionResult Zapisywanie()
         {
             if (User.Identity.IsAuthenticated)
             {
                 WizytyManager WM = new WizytyManager();
-                WizytyDataView WDV = WM.ZapisywanieNaWizyteDataView();
-                return View(WDV);
+                EventDataView EDV = WM.ZapisywanieNaWizyteDataView();
+                return View(EDV);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -144,61 +164,83 @@ namespace GabinetIP.Controllers
                 UserManager UM = new UserManager();
                 UM.UpdateUserAccount(profile);
 
-                ViewBag.Status = "Update Sucessful!";
+                ViewBag.Status = "Profil zaktualizowany!";
             }
             return View(profile);
         }
 
+
+        [AuthorizeRoles("Pacjent")]
         public ActionResult Calendar()
         {
             return View();
         }
-
+        public ActionResult Calendar2()
+        {
+            return View();
+        }
         public ActionResult Backend()
         {
             return new Dpc().CallBack(this);
         }
-
         class Dpc : DayPilotCalendar
         {
             GabinetDBEntities db = new GabinetDBEntities();
-
             protected override void OnInit(InitArgs e)
             {
                 Update(CallBackUpdateType.Full);
             }
-
-            protected override void OnEventResize(EventResizeArgs e)
+            protected override void OnCommand(CommandArgs e)
             {
-                var toBeResized = (from ev in db.Event where ev.Id == Convert.ToInt32(e.Id) select ev).First();
-                toBeResized.Start = e.NewStart;
-                toBeResized.End = e.NewEnd;
-                db.SaveChanges();
-                Update();
+                switch (e.Command)
+                {
+                    case "previous":
+                        StartDate = StartDate.AddDays(-7);
+                        Update(CallBackUpdateType.Full);
+                        break;
+                    case "next":
+                        StartDate = StartDate.AddDays(7);
+                        Update(CallBackUpdateType.Full);
+                        break;
+                    case "refresh":
+                        Update();
+                        break;
+                }
             }
+            //protected override void OnEventResize(EventResizeArgs e)
+            //{
+            //    var toBeResized = (from ev in db.Event where ev.Id == Convert.ToInt32(e.Id) select ev).First();
+            //    toBeResized.Start = e.NewStart;
+            //    toBeResized.End = e.NewEnd;
+            //    db.SaveChanges();
+            //    Update();
+            //}
 
-            protected override void OnEventMove(EventMoveArgs e)
-            {
-                var toBeResized = (from ev in db.Event where ev.Id == Convert.ToInt32(e.Id) select ev).First();
-                toBeResized.Start = e.NewStart;
-                toBeResized.End = e.NewEnd;
-                db.SaveChanges();
-                Update();
-            }
-
+            //protected override void OnEventMove(EventMoveArgs e)
+            //{
+            //    var toBeResized = (from ev in db.Event where ev.Id == Convert.ToInt32(e.Id) select ev).First();
+            //    toBeResized.Start = e.NewStart;
+            //    toBeResized.End = e.NewEnd;
+            //    db.SaveChanges();
+            //    Update();
+            //}
             protected override void OnTimeRangeSelected(TimeRangeSelectedArgs e)
             {
+
+                var uzyt = System.Web.HttpContext.Current.User.Identity.Name;
+                UserManager UM = new UserManager();
+               
                 var toBeCreated = new Event
                 {
                     Start = e.Start,
                     End = e.End,
-                    Text = (string)e.Data["name"]
-                };
+                    Text = (string)e.Data["name"],
+                    PacjentID = UM.GetUserID(uzyt),
+            };
                 db.Event.Add(toBeCreated);
                 db.SaveChanges();
                 Update();
             }
-
             protected override void OnFinish()
             {
                 if (UpdateType == CallBackUpdateType.None)
@@ -206,6 +248,7 @@ namespace GabinetIP.Controllers
                     return;
                 }
                 Events = from ev in db.Event select ev;
+                //Events = new EventManager(Controller).Data.AsEnumerable();
 
                 DataIdField = "Id";
                 DataTextField = "Text";
@@ -213,9 +256,8 @@ namespace GabinetIP.Controllers
                 DataEndField = "End";
 
                 //Events = from e in db.Event where !((e.End <= VisibleStart) || (e.Start >= VisibleEnd)) select e;
-                Update();
+                //Update();
             }
         }
-
     }
 }

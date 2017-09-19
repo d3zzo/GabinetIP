@@ -142,6 +142,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Media\layout.css" />
+    <Content Include="Media\temat.css" />
     <Content Include="Models\DB\GabinetDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>GabinetDBModel.edmx</DependentUpon>
@@ -212,15 +213,12 @@
     <Compile Include="Models\DB\SYSUserRole.cs">
       <DependentUpon>GabinetDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\Wizyta.cs">
-      <DependentUpon>GabinetDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\EntityManager\UserManager.cs" />
     <Compile Include="Models\EntityManager\WizytyManager.cs" />
+    <Compile Include="Models\ViewModel\EventDataView.cs" />
     <Compile Include="Models\ViewModel\UserLoginView.cs" />
     <Compile Include="Models\ViewModel\UserProfileView.cs" />
     <Compile Include="Models\ViewModel\UserSignUpView.cs" />
-    <Compile Include="Models\ViewModel\WizytyView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AuthorizeRolesAttribute.cs" />
   </ItemGroup>
@@ -243,10 +241,12 @@
     <Content Include="Views\Home\EditProfile.cshtml" />
     <Content Include="Views\Home\Historia.cshtml" />
     <Content Include="Views\Home\Zaplanowane.cshtml" />
-    <Content Include="Views\Home\Zapisywanie.cshtml" />
     <Content Include="Views\Home\Calendar.cshtml" />
     <Content Include="Views\Event\Create.cshtml" />
     <Content Include="Views\Event\Edit.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\Calendar2.cshtml" />
+    <Content Include="Views\Home\ZaplanowaneLekarz.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

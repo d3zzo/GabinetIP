@@ -12,12 +12,12 @@ namespace GabinetIP.Models.ViewModel
         public int SYSUserID { get; set; }
 
         [Required(ErrorMessage = "*")]
-        [Display(Name ="Login ID")]
+        [Display(Name ="Nazwa użytkownika")]
         public string LoginName { get; set; }
 
         [Required(ErrorMessage = "*")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
     }
 }

@@ -13,6 +13,8 @@
           <Property Name="Start" Type="datetime" Nullable="false" />
           <Property Name="End" Type="datetime" Nullable="false" />
           <Property Name="Text" Type="nvarchar" MaxLength="200" />
+          <Property Name="PacjentID" Type="int" />
+          <Property Name="LekarzID" Type="int" />
         </EntityType>
         <EntityType Name="LOOKUPRole">
           <Key>
@@ -65,18 +67,30 @@
           <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
           <Property Name="RowModifiedDateTime" Type="datetime" />
         </EntityType>
-        <EntityType Name="Wizyta">
-          <Key>
-            <PropertyRef Name="WizytaID" />
-          </Key>
-          <Property Name="WizytaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PacjentID" Type="int" />
-          <Property Name="LekarzID" Type="int" />
-          <Property Name="DataUtworzeniaWizyty" Type="datetime" />
-          <Property Name="Start" Type="datetime" Nullable="false" />
-          <Property Name="Koniec" Type="datetime" Nullable="false" />
-          <Property Name="OpisWizyty" Type="varchar" MaxLength="250" />
-        </EntityType>
+        <Association Name="FK__Event__LekarzID__52593CB8">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="0..1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="LekarzID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Event__PacjentID__534D60F1">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="0..1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="PacjentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__SYSUserPr__SYSUs__1BFD2C07">
           <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
           <End Role="SYSUserProfile" Type="Self.SYSUserProfile" Multiplicity="*" />
@@ -113,37 +127,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__LekarzID__4CA06362">
-          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="0..1" />
-          <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SYSUser">
-              <PropertyRef Name="SYSUserID" />
-            </Principal>
-            <Dependent Role="Wizyta">
-              <PropertyRef Name="LekarzID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Wizyta__PacjentI__4D94879B">
-          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="0..1" />
-          <End Role="Wizyta" Type="Self.Wizyta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SYSUser">
-              <PropertyRef Name="SYSUserID" />
-            </Principal>
-            <Dependent Role="Wizyta">
-              <PropertyRef Name="PacjentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="GabinetDBModelStoreContainer">
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOOKUPRole" EntityType="Self.LOOKUPRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUser" EntityType="Self.SYSUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUserProfile" EntityType="Self.SYSUserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUserRole" EntityType="Self.SYSUserRole" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Wizyta" EntityType="Self.Wizyta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Event__LekarzID__52593CB8" Association="Self.FK__Event__LekarzID__52593CB8">
+            <End Role="SYSUser" EntitySet="SYSUser" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Event__PacjentID__534D60F1" Association="Self.FK__Event__PacjentID__534D60F1">
+            <End Role="SYSUser" EntitySet="SYSUser" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
           <AssociationSet Name="FK__SYSUserPr__SYSUs__1BFD2C07" Association="Self.FK__SYSUserPr__SYSUs__1BFD2C07">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserProfile" EntitySet="SYSUserProfile" />
@@ -155,14 +152,6 @@
           <AssociationSet Name="FK__SYSUserRo__SYSUs__22AA2996" Association="Self.FK__SYSUserRo__SYSUs__22AA2996">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserRole" EntitySet="SYSUserRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__LekarzID__4CA06362" Association="Self.FK__Wizyta__LekarzID__4CA06362">
-            <End Role="SYSUser" EntitySet="SYSUser" />
-            <End Role="Wizyta" EntitySet="Wizyta" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__PacjentI__4D94879B" Association="Self.FK__Wizyta__PacjentI__4D94879B">
-            <End Role="SYSUser" EntitySet="SYSUser" />
-            <End Role="Wizyta" EntitySet="Wizyta" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -195,8 +184,8 @@
           <Property Name="RowMOdifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="SYSUserProfiles" Relationship="Self.FK__SYSUserPr__SYSUs__1BFD2C07" FromRole="SYSUser" ToRole="SYSUserProfile" />
           <NavigationProperty Name="SYSUserRoles" Relationship="Self.FK__SYSUserRo__SYSUs__22AA2996" FromRole="SYSUser" ToRole="SYSUserRole" />
-          <NavigationProperty Name="Wizyta" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362" FromRole="SYSUser" ToRole="Wizyta" />
-          <NavigationProperty Name="Wizyta1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B" FromRole="SYSUser" ToRole="Wizyta" />
+          <NavigationProperty Name="Event" Relationship="GabinetDBModel.FK__Event__LekarzID__52593CB8" FromRole="SYSUser" ToRole="Event" />
+          <NavigationProperty Name="Event1" Relationship="GabinetDBModel.FK__Event__PacjentID__534D60F1" FromRole="SYSUser" ToRole="Event" />
           </EntityType>
         <EntityType Name="SYSUserProfile">
           <Key>
@@ -282,14 +271,13 @@
             <End Role="SYSUserRole" EntitySet="SYSUserRoles" />
           </AssociationSet>
           <EntitySet Name="Event" EntityType="GabinetDBModel.Event" />
-          <EntitySet Name="Wizyta" EntityType="GabinetDBModel.Wizyta" />
-          <AssociationSet Name="FK__Wizyta__LekarzID__4CA06362" Association="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362">
+          <AssociationSet Name="FK__Event__LekarzID__52593CB8" Association="GabinetDBModel.FK__Event__LekarzID__52593CB8">
             <End Role="SYSUser" EntitySet="SYSUsers" />
-            <End Role="Wizyta" EntitySet="Wizyta" />
+            <End Role="Event" EntitySet="Event" />
           </AssociationSet>
-          <AssociationSet Name="FK__Wizyta__PacjentI__4D94879B" Association="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B">
+          <AssociationSet Name="FK__Event__PacjentID__534D60F1" Association="GabinetDBModel.FK__Event__PacjentID__534D60F1">
             <End Role="SYSUser" EntitySet="SYSUsers" />
-            <End Role="Wizyta" EntitySet="Wizyta" />
+            <End Role="Event" EntitySet="Event" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Event">
@@ -300,41 +288,31 @@
           <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="End" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Text" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Wizyta">
-          <Key>
-            <PropertyRef Name="WizytaID" />
-          </Key>
-          <Property Name="WizytaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PacjentID" Type="Int32" />
           <Property Name="LekarzID" Type="Int32" />
-          <Property Name="DataUtworzeniaWizyty" Type="DateTime" Precision="3" />
-          <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Koniec" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="OpisWizyty" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="SYSUser" Relationship="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362" FromRole="Wizyta" ToRole="SYSUser" />
-          <NavigationProperty Name="SYSUser1" Relationship="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B" FromRole="Wizyta" ToRole="SYSUser" />
+          <NavigationProperty Name="SYSUser" Relationship="GabinetDBModel.FK__Event__LekarzID__52593CB8" FromRole="Event" ToRole="SYSUser" />
+          <NavigationProperty Name="SYSUser1" Relationship="GabinetDBModel.FK__Event__PacjentID__534D60F1" FromRole="Event" ToRole="SYSUser" />
         </EntityType>
-        <Association Name="FK__Wizyta__LekarzID__4CA06362">
+        <Association Name="FK__Event__LekarzID__52593CB8">
           <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="0..1" />
-          <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
+          <End Type="GabinetDBModel.Event" Role="Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SYSUser">
               <PropertyRef Name="SYSUserID" />
             </Principal>
-            <Dependent Role="Wizyta">
+            <Dependent Role="Event">
               <PropertyRef Name="LekarzID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Wizyta__PacjentI__4D94879B">
+        <Association Name="FK__Event__PacjentID__534D60F1">
           <End Type="GabinetDBModel.SYSUser" Role="SYSUser" Multiplicity="0..1" />
-          <End Type="GabinetDBModel.Wizyta" Role="Wizyta" Multiplicity="*" />
+          <End Type="GabinetDBModel.Event" Role="Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SYSUser">
               <PropertyRef Name="SYSUserID" />
             </Principal>
-            <Dependent Role="Wizyta">
+            <Dependent Role="Event">
               <PropertyRef Name="PacjentID" />
             </Dependent>
           </ReferentialConstraint>
@@ -403,23 +381,12 @@
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="GabinetDBModel.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="LekarzID" ColumnName="LekarzID" />
+                <ScalarProperty Name="PacjentID" ColumnName="PacjentID" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="End" ColumnName="End" />
                 <ScalarProperty Name="Start" ColumnName="Start" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Wizyta">
-            <EntityTypeMapping TypeName="GabinetDBModel.Wizyta">
-              <MappingFragment StoreEntitySet="Wizyta">
-                <ScalarProperty Name="OpisWizyty" ColumnName="OpisWizyty" />
-                <ScalarProperty Name="Koniec" ColumnName="Koniec" />
-                <ScalarProperty Name="Start" ColumnName="Start" />
-                <ScalarProperty Name="DataUtworzeniaWizyty" ColumnName="DataUtworzeniaWizyty" />
-                <ScalarProperty Name="LekarzID" ColumnName="LekarzID" />
-                <ScalarProperty Name="PacjentID" ColumnName="PacjentID" />
-                <ScalarProperty Name="WizytaID" ColumnName="WizytaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0887067a99474acb86ae672f175e458a" Name="Diagram1" ZoomLevel="110" ShowGrid="true">
+      <Diagram DiagramId="0887067a99474acb86ae672f175e458a" Name="Diagram1" ZoomLevel="71" ShowGrid="true">
         <EntityTypeShape EntityType="GabinetDBModel.LOOKUPRole" Width="1.5" PointX="1.25" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GabinetDBModel.SYSUser" Width="1.5" PointX="6.125" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GabinetDBModel.SYSUserProfile" Width="1.5" PointX="8.875" PointY="3.125" IsExpanded="true" />
@@ -12,10 +12,9 @@
         <AssociationConnector Association="GabinetDBModel.FK__SYSUserRo__LOOKU__21B6055D" ManuallyRouted="false" />
         <AssociationConnector Association="GabinetDBModel.FK__SYSUserPr__SYSUs__1BFD2C07" ManuallyRouted="false" />
         <AssociationConnector Association="GabinetDBModel.FK__SYSUserRo__SYSUs__22AA2996" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="GabinetDBModel.Event" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="GabinetDBModel.Wizyta" Width="1.5" PointX="8.75" PointY="7.375" />
-        <AssociationConnector Association="GabinetDBModel.FK__Wizyta__LekarzID__4CA06362" />
-        <AssociationConnector Association="GabinetDBModel.FK__Wizyta__PacjentI__4D94879B" />
+        <EntityTypeShape EntityType="GabinetDBModel.Event" Width="1.5" PointX="8.375" PointY="7.375" />
+        <AssociationConnector Association="GabinetDBModel.FK__Event__LekarzID__52593CB8" />
+        <AssociationConnector Association="GabinetDBModel.FK__Event__PacjentID__534D60F1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

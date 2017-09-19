@@ -5,7 +5,6 @@ using System.Web;
 using GabinetIP.Models.DB;
 using GabinetIP.Models.ViewModel;
 
-
 namespace GabinetIP.Models.EntityManager
 {
     public class UserManager
@@ -118,13 +117,38 @@ namespace GabinetIP.Models.EntityManager
             return 0;
         }
 
+        public string GetUserFullName(int userID)
+        {
+            using (GabinetDBEntities db = new GabinetDBEntities())
+            {
+                var user = db.SYSUserProfiles.Where(x => x.SYSUserID.Equals(userID)).FirstOrDefault();
+                if (user != null)
+                {
+                    return user.FirstName + " " + user.LastName;
+                }
+            }
+            return null;
+        }
+        public string GetUserRole(int userID)
+        {
+            using (GabinetDBEntities db = new GabinetDBEntities())
+            {
+                var user = db.SYSUserRoles.Where(x => x.SYSUserID.Equals(userID)).FirstOrDefault();
+                if (user != null)
+                {
+                    return user.LOOKUPRole.RoleName;
+                }
+            }   
+            return null;
+        }
+
         public List<UserProfileView> GetAllUserProfiles()
         {
             List<UserProfileView> profiles = new List<UserProfileView>();
             using (GabinetDBEntities db = new GabinetDBEntities())
             {
                 UserProfileView UPV;
-                var users = db.SYSUsers.ToList();
+                //var users = db.SYSUsers.ToList();
 
                 foreach (SYSUser u in db.SYSUsers)
                 {
@@ -157,9 +181,22 @@ namespace GabinetIP.Models.EntityManager
             return profiles;
         }
 
+        public EventData GetDoctorDataView()
+        {
+            EventData ED = new EventData();
+
+            List<UserProfileView> profiles = GetAllUserProfiles();           
+            var lekarze = profiles.Where(x => x.LOOKUPRoleID == 9);
+            int? lekarzID = 0;
+            ED.lekarze = new Lekarze { SelectedDoctorID = lekarzID, ListaLekarzy = lekarze };
+            return ED;
+        }
+
+
         public UserDataView GetUserDataView(string loginName)
         {
             UserDataView UDV = new UserDataView();
+
             List<UserProfileView> profiles = GetAllUserProfiles();
             List<LOOKUPAvailableRole> roles = GetAllRoles();
 
@@ -174,14 +211,15 @@ namespace GabinetIP.Models.EntityManager
             }
 
             List<Gender> genders = new List<Gender>();
-            genders.Add(new Gender { Text = "Male", Value = "M" });
-            genders.Add(new Gender { Text = "Female", Value = "F" });
+            genders.Add(new Gender { Text = "Mężczyzna", Value = "M" });
+            genders.Add(new Gender { Text = "Kobieta", Value = "F" });
 
             UDV.UserProfile = profiles;
             UDV.UserRoles = new UserRoles { SelectedRoleID = userAssignedRoleID, UserRoleList = roles };
             UDV.UserGender = new UserGender { SelectedGender = userGender, Gender = genders };
             return UDV;
         }
+
 
         public void UpdateUserAccount(UserProfileView user)
         {

@@ -31,7 +31,7 @@ namespace GabinetIP.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Login name already taken");
+                    ModelState.AddModelError("", "Ta nazwa użytkownika jest już zajęta");
                 }
             }
             return View();

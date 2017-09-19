@@ -23,19 +23,19 @@
 {
     BackendUrl = Url.Content("~/Home/Backend"),
     ViewType = DayPilot.Web.Mvc.Enums.Calendar.ViewType.WorkWeek,
-    TimeRangeSelectedHandling = TimeRangeSelectedHandlingType.JavaScript,
-    TimeRangeSelectedJavaScript = "create(start, end)",
-    EventClickHandling = EventClickHandlingType.JavaScript,
+    //TimeRangeSelectedHandling = TimeRangeSelectedHandlingType.JavaScript,
+    //TimeRangeSelectedJavaScript = "create(start, end)",
+    //EventClickHandling = EventClickHandlingType.JavaScript,
     //EventClickJavaScript = "edit(e)",
     BusinessBeginsHour = 7,
     BusinessEndsHour = 15,
     HeightSpec = DayPilot.Web.Mvc.Enums.Calendar.HeightSpec.BusinessHours,
-    Theme = "temat"   
+    Theme = "temat"
 })
 
 <div>
     @Html.ActionLink("Powrót do strony głównej", "Welcome", "Home")
-</div>  
+</div>
 
 <script type="text/javascript">
 
